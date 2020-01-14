@@ -1,4 +1,4 @@
-package com.li;
+package com.li.lock;
 
 import java.util.HashMap;
 import java.util.Map;
