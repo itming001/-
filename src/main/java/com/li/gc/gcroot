@@ -1,0 +1,72 @@
+GC ROOT:
+ 1. 虚拟机栈（栈帧中的局部变量，也叫局部变量）中引用的对象
+ 2. 方法区中的类静态属性的引用的对象
+ 3. 方法区中常量引用的对象
+ 4. 本地方法栈中JNI（Native）引用的对象
+
+JVM 的参数类型：
+  1. 标配参数
+    - version
+    - help
+    - showversion
+  2. X参数（了解）
+    -Xint 解释执行
+    -Xcomp 第一次使用就编译成本地代码
+    -Xmixed 混合模式
+  3. XX参数
+     （1）Boolean类型
+        -XX：+或者 -某个属性值（+表示开启 -表示关闭）
+        如何查看一个正在运行中的java程序，他的某个jvm参数是否开启？具体值是多少？
+        jps -l
+        jinfo -flag PrintGCDetails [java进程id]
+        jinfo -flags 查看所有的默认参数设置
+     （2）KV设值类型
+        -XX:属性key=属性值value
+
+     （3）jinfo举例，如何查看当前运行程序的配置
+
+     坑点：怎样解释-Xms -Xmx两个参数设置
+       -Xms 等价于 -XX:InitialHeapSize
+       -Xmx 等价于 -XX:MaxHeapSize
+  4. 查看参数，盘点家底  （cmd默认打开计算器calc）
+     主要查看初始默认参数配置：java -XX:+PrintFlagsInitial
+     主要查看修改更新后的值：java -XX:+PrintFlagsFinal -version
+         （如果存在 := 代表默认被JVM加载后系统修改，或者是认为修改的参数）
+         （= 是默认java的出厂设置）
+      查看简化的java默认的参数：java -XX:+PrintCommandLineFlags -version
+  5. 你平时工作用过的Jvm常用的配置参数有哪些？
+    -Xms 初始大小内存，默认为物理内存的1/64 等价于 -XX:InitialHeapSize
+    -Xmx 最大分配内存，默认为物理内存的1/4  等价于 -XX:MaxHeapSize
+    -Xss 设置单个线程栈的大小，一般默认为512k - 1024k 等价于 -XX:ThreadStackSize
+    -Xmn 设置年轻代的大小
+    -XX:MetaspaceSize  设置元空间大小：元空间的本质和永久代类似，都是对JVM规范中方法区的实现，不过元空间与永久代之间
+    最大的区别在于：元空间并不在虚拟机中。而是使用本地内存。因此。默认情况下，元空间的大小仅受本地内存的限制。
+    日常使用的JVM参数配置：
+     -Xms128m -Xmx4096m -Xss1024k -XX:MetaspaceSize=512m -XX:+PrintCommandLineFlags -XX:+PrintGCDetails
+     -XX:+UseSerialGC
+  6. -XX:+PrintGCDetails 打印垃圾回收的详细细节
+    [GC (Allocation Failure) [PSYoungGen: 2006K->488K(2560K)] 2006K->776K(9728K), 0.0065624 secs] [Times: user=0.00 sys=0.00, real=0.01 secs]
+    [[GC的类型:YoungGC前新生代内存占用->YoungGC后新生代内存的占用（新生代总共大小）]YoungGC前JVM堆内存占用->YoungGC后堆内存使用（JVM堆总大小）
+    YoungGC耗时] [YoungGC用户耗时,YoungGC系统耗时,YoungGC实际耗时]
+
+    [Full GC (Allocation Failure) [PSYoungGen: 400K->0K(2560K)] [ParOldGen: 288K->639K(7168K)] 688K->639K(9728K), [Metaspace: 3485K->3485K(1056768K)], 0.0098268 secs]
+     [Times: user=0.00 sys=0.00, real=0.01 secs]
+    [[GC类型 [Young区：GC前Young区内存的占用->GC后Young区内存的占用（Young区总大小）][old区：GC前Old区内存占用->GC后Old区内存的占用（Old区总大小）]
+    GC前堆内存占用->GC后堆内存占用（JVM堆总大小）[元空间：GC前内存占用->GC后内存占用（元空间总大小），GC耗时]
+    [用户时间 系统时间，实际时间]]
+  7. -XX:SurvivorRatio 设置新生代中eden和s0/s1空间的比例
+     默认 -XX:SurvivorRatio=8,Eden:s0:s1=8:1:1
+     假如 -XX:SurvivorRatio=4,Eden:s0:s1=4:1:1
+     SurvivorRatio值就是设置eden区的比例占多少，S0/S1相同
+  8. -XX:NewRatio 配置年轻代与老年代在堆结构的占比
+     默认 -XX:NewRatio=2 新生代占1，老年代2，年轻代占整个堆的1/3
+          -XX:NewRatio=4 新生代占1，老年代4，年轻代占整个堆的1/5
+          NewRatio值就是设置老年代的占比，剩下的1给新生代
+  9. -XX:MaxTenuringThreshold 设置垃圾的最大年龄
+
+
+
+
+
+
+
