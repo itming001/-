@@ -1,0 +1,7 @@
+列出印象最深的5个Java异常：
+   java.lang.StackOverflowError:栈内存溢出
+   java.lang.OutOfMemoryError:java heap space 堆内存溢出
+   java.lang.OutOfMemoryError:GC overhead limit exceeded 内存回收无效，每次垃圾回收的意义不大
+   java.lang.OutOfMemoryError:Direct buffer memory 系统分配给java的内存，排除Java占用的内存之外的空间，内存溢出
+   java.lang.OutOfMemoryError:unable to create new native thread 超过一个进程承受的线程数
+   java.lang.OutOfMemoryError:Metaspace 元空间内存溢出
