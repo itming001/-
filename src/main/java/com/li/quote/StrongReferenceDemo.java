@@ -1,5 +1,7 @@
 package com.li.quote;
 
+import java.util.WeakHashMap;
+
 /**
  * @author itming
  */
@@ -10,6 +12,7 @@ public class StrongReferenceDemo {
         object = null;
         System.gc();
         System.out.println(object2);
+
 
 
     }
