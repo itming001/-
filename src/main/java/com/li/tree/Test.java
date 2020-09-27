@@ -17,8 +17,10 @@ public class Test {
 
     public static void main(String[] args) {
         //实现二叉树的广度优先遍历
-        List<List<Integer>> lists = levelOrder(getTreeNode());
-        System.out.println(lists);
+//        List<List<Integer>> lists = levelOrder(getTreeNode());
+//        System.out.println(lists);
+        //实现二叉树的深度优先遍历
+        deepLevelOrder(getTreeNode());
     }
 
     /**
@@ -78,5 +80,18 @@ public class Test {
             allResults.add(results);
         }
         return allResults;
+    }
+
+    /**
+     * 实现二叉树的深度优先遍历
+     * 中序遍历
+     */
+    public static void deepLevelOrder(TreeNode root){
+        if(root == null){
+            return;
+        }
+        deepLevelOrder(root.getLeft());
+        System.out.println(root.getVal());
+        deepLevelOrder(root.getRight());
     }
 }
